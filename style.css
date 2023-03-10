@@ -1,7 +1,12 @@
 .todo-container {
   width: 750px;
 }
-
+h1 {
+  text-align: center;
+}
+p {
+  text-align: center;
+}
 .todo-item {
   background-color: #fff;
   border: 1px solid #ccc;
@@ -11,4 +16,28 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+.container {
+  background-color: antiquewhite;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  width: 800px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-content: center;
+  
+}
+li {
+  list-style: none;
+  
 }
