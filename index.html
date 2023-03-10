@@ -5,7 +5,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <link rel="stylesheet" href="style.scss">
+  <link rel="stylesheet" href="style.css">
+  <!-- jquery -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 </head>
 <body>
   <div class="container">
@@ -16,9 +18,9 @@
     </div>
     <div id="todo-form">
       <form>
-        <input type="text" id="todo-input" placeholder="Add a new todo">
-        <button type="submit" id="todo-button" class="todo-btn">ADD</button>
-        
+        <input id="newTodo" type="text" placeholder="Add a new todo">
+        <button type="submit" id="add-btn">ADD</button>
+      </form>
   </div>
   <script src="script.js"></script>
 </body> 
