@@ -3,8 +3,10 @@ $(document).ready(function() {
   
 });
 
-$(document).on('click', '.delete', function() {
-  var id = $(this).data('id');
+//delet todo button
+$(document).on('click', '.delete', function(e) {
+  e.preventDefault();
+  var id = $(this).data().id;
   console.log(id);
   
   $.ajax({
@@ -19,13 +21,47 @@ $(document).on('click', '.delete', function() {
       console.log(errorMessage);
     }
   });
+  setTimeout(fetchTodos, 500);
 });
 
 
+// $('button').on('click', ".active", function() {
+//   var id = $('.delete').data().id;
+//   console.log(id);
+//   setTimeout(fetchTodos, 500);
+// });
 
+$('body').on('click', '.active', function() {
+  var id = $(this).data().id;
+  console.log(id);
+  $.ajax({
+    type: "PUT",
+    url: `https://fewd-todolist-api.onrender.com/tasks/${id}/mark_complete?api_key=130`,
+    contentType: "application/json",
+    dataType: "json",
+    data: JSON.stringify({
+      task: {
+        completed: true,
+      }
+    }),
+    success: function(response, textStatus) {
+      console.log(response);
+    },
+    error: function(request, textStatus, errorMessage) {
+      console.log(errorMessage);
+    }
+  });
+  setTimeout(fetchTodos, 500);
+});
+// $(document).on('click', '.active', function(e) {
+//   e.preventDefault();
+//   var thisId = $('.delete').data().id;
+//   console.log(id);
+
+//   setTimeout(fetchTodos, 500);
+// });
 
 $('#add-btn').on('click', function(e) {
-
   e.preventDefault();
   $.ajax({
     type: "POST",
@@ -40,19 +76,14 @@ $('#add-btn').on('click', function(e) {
     }),
     success: function(response, textStatus) {
       console.log(response.task.content);
-   
-      $('#todo-container').append(
-        `<div class="todo-item">
-        <li>${response.task.content}</li><button data-id="${response.task.id}"  class="delete">Delete</button>
-        </div>`);
-      
+     
     },
     error: function(request, textStatus, errorMessage) {
       console.log(errorMessage, request, textStatus);
     }
   });
   $('input').val('');
-  
+  setTimeout(fetchTodos, 500);
 });
 
 
@@ -65,11 +96,10 @@ var fetchTodos = function() {
     dataType: "json",
     success: function(response, textStatus) {
       console.log(response);
-      //return response;
       for (let i = 0; i < response.tasks.length; i++) {
         var data = response.tasks[i].id;
         $('#todo-container').append(
-          `<div><li>${response.tasks[i].content}</li><button data-id="${data}"   class="delete">Delete</button></div>`
+          `<div class="todo-item"><button data-id="${data}" class="active">Mark Complete</button><li>${response.tasks[i].content}</li><button data-id="${data}"class="delete">Delete</button></div>`
         );
       }
     },
@@ -79,6 +109,7 @@ var fetchTodos = function() {
   });
     
 };
+
 //!!!!!!! 
 //!!!!!!!be careful with this function, it will delete all your todos
 //!!!!!!!
@@ -88,7 +119,7 @@ $('#dont-press').on('click', function() {
 });
 
 let clearTodos = function() {
-  for (let i = 1750; i < 1900; i++) {
+  for (let i = 1900; i < 2000; i++) {
     $.ajax({
       type: "DELETE",
       url: `https://fewd-todolist-api.onrender.com/tasks/${i}?api_key=130`,
@@ -103,55 +134,3 @@ let clearTodos = function() {
 };
 
 
-
-
-// function fetchTasks() {
-//   $.ajax({
-//     type: 'GET',
-//     url: 'https://fewd-todolist-api.onrender.com/tasks?api_key=112',
-//     dataType: 'json',
-//     success: function (response, textStatus) {
-//       console.log(response);
-//       $('#all-tasks-container').empty();
-//       $('#completed-tasks-container').empty(); 
-//       for (var i = 0; i < response.tasks.length; i++) {
-//         var task = response.tasks[i];
-//         var itemHtml = `
-//           <div class="item ${task.completed ? 'completed' : 'active'}" data-id="${task.id}">
-//             <div class="badge ${task.completed ? 'red' : 'green'}">${task.completed ? "Completed Tasks" : "All Tasks"}</div>
-//             <input type="checkbox" id="myCheckbox${i}" ${task.completed ? 'checked' : ''} ${task.completed ? 'disabled' : ''}>
-//             <label class="task" for="myCheckbox${i}">${task.content}</label>
-//             ${task.completed ? '<button class="delete-button" data-task-id="' + task.id + '">Delete</button>' : '<button class="start-button" data-task-id="' + task.id + '">Start</button>'}
-//           </div>
-//         `;
-//         if (task.completed) {
-//           $('#completed-tasks-container').append(itemHtml);
-//         } else {
-//           $('#all-tasks-container').append(itemHtml);
-//         }
-//       }
-//       switchContainers($('#navigation button.active').text().toLowerCase()); // call switchContainers with the currently active navigation button
-//     },
-//     error: function (request, textStatus, errorMessage) {
-//       console.log(errorMessage);
-//     }
-//   });
-// }
-
-// $(document).on('click', '.delete-button', function() {
-//   var taskId = $(this).data('task-id');
-//   var deleteUrl = `https://fewd-todolist-api.onrender.com/tasks/${taskId}?api_key=112`;
-//   var $item = $(this).closest('.item');
-  
-//   $.ajax({
-//     type: 'DELETE',
-//     url: deleteUrl,
-//     success: function (response, textStatus) {
-//       console.log(response);
-//       $item.remove();
-//     },
-//     error: function (request, textStatus, errorMessage) {
-//       console.log(errorMessage);
-//     }
-//   });
-// });
