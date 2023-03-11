@@ -1,19 +1,24 @@
+
+
 $(document).ready(function() {
+  //fetch todos on page load
   fetchTodos();
   
 });
 
-//delet todo button
+//delete todo button
 $(document).on('click', '.delete', function(e) {
   e.preventDefault();
+  //get id of todo
   var id = $(this).data().id;
   console.log(id);
-  
+  //delete request to api
   $.ajax({
     type: "DELETE",
     url: `https://fewd-todolist-api.onrender.com/tasks/${id}?api_key=130`,
     success: function(response, textStatus) {
       console.log(response);
+      //remove todo from page
       $(this).closest('.todo-item').remove();
       
     },
@@ -21,16 +26,13 @@ $(document).on('click', '.delete', function(e) {
       console.log(errorMessage);
     }
   });
+
   setTimeout(fetchTodos, 500);
 });
 
 
-// $('button').on('click', ".active", function() {
-//   var id = $('.delete').data().id;
-//   console.log(id);
-//   setTimeout(fetchTodos, 500);
-// });
 
+//mark todo complete button
 $('body').on('click', '.active', function() {
   var id = $(this).data().id;
   console.log(id);
@@ -53,14 +55,7 @@ $('body').on('click', '.active', function() {
   });
   setTimeout(fetchTodos, 500);
 });
-// $(document).on('click', '.active', function(e) {
-//   e.preventDefault();
-//   var thisId = $('.delete').data().id;
-//   console.log(id);
-
-//   setTimeout(fetchTodos, 500);
-// });
-
+//add todo button
 $('#add-btn').on('click', function(e) {
   e.preventDefault();
   $.ajax({
@@ -87,7 +82,7 @@ $('#add-btn').on('click', function(e) {
 });
 
 
- 
+//fetch todos function
 var fetchTodos = function() {
   $('#todo-container').empty();
   $.ajax({
