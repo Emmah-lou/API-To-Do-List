@@ -61,6 +61,29 @@ $('body').on('click', '.active', function() {
   });
   setTimeout(fetchTodos, 500);
 });
+
+$('body').on('click', '.setActive', function() {
+  var id = $(this).data().id;
+  console.log(id);
+  $.ajax({
+    type: "PUT",
+    url: `https://fewd-todolist-api.onrender.com/tasks/${id}/mark_active?api_key=130`,
+    contentType: "application/json",
+    dataType: "json",
+    data: JSON.stringify({
+      task: {
+        completed: false,
+      }
+    }),
+    success: function(response, textStatus) {
+      console.log(response);
+    },
+    error: function(request, textStatus, errorMessage) {
+      console.log(errorMessage);
+    }
+  });
+  setTimeout(fetchTodos, 500);
+});
 //add todo button
 $('#add-btn').on('click', function(e) {
   e.preventDefault();
@@ -103,9 +126,9 @@ var fetchTodos = function() {
         var data = response.tasks[i].id;
         if (response.tasks[i].completed === true) {
           $('#completed-tasks').append(
-            `<div class="todo-item"><button data-id="${data}" class="active">Mark Complete</button><li>${response.tasks[i].content}</li><button data-id="${data}"class="delete">Delete</button></div>`
+            `<div class="todo-item"><button data-id="${data}" class="active">Mark Complete</button><button data-id="${data}" class="setActive">Set Active</button><li>${response.tasks[i].content}</li><button data-id="${data}"class="delete">Delete</button></div>`
           );
-          $('#all-tasks').append(`<div class="todo-item"><button data-id="${data}" class="active">Mark Complete</button><li>${response.tasks[i].content}</li><button data-id="${data}"class="delete">Delete</button></div>`);
+          $('#all-tasks').append(`<div class="todo-item"><button data-id="${data}" class="active">Mark Complete</button><button data-id="${data}" class="setActive">Set Active</button><li>${response.tasks[i].content}</li><button data-id="${data}"class="delete">Delete</button></div>`);
         } else {
           $('#todo-container').append(`<div class="todo-item"><button data-id="${data}" class="active">Mark Complete</button><li>${response.tasks[i].content}</li><button data-id="${data}"class="delete">Delete</button></div>`);
           $('#all-tasks').append(`<div class="todo-item"><button data-id="${data}" class="active">Mark Complete</button><li>${response.tasks[i].content}</li><button data-id="${data}"class="delete">Delete</button></div>`);
