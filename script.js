@@ -3,6 +3,12 @@
 $(document).ready(function() {
   //fetch todos on page load
   fetchTodos();
+  //hide completed tasks container
+  $('#completed-tasks').hide();
+  //hide all tasks container
+  $('#all-tasks').hide();
+  //show current tasks container
+  $('#todo-container').show();
   
 });
 
@@ -85,6 +91,8 @@ $('#add-btn').on('click', function(e) {
 //fetch todos function
 var fetchTodos = function() {
   $('#todo-container').empty();
+  $('#completed-tasks').empty();
+  $('#all-tasks').empty();
   $.ajax({
     type: "GET",
     url: "https://fewd-todolist-api.onrender.com/tasks?api_key=130",
@@ -93,17 +101,65 @@ var fetchTodos = function() {
       console.log(response);
       for (let i = 0; i < response.tasks.length; i++) {
         var data = response.tasks[i].id;
-        $('#todo-container').append(
-          `<div class="todo-item"><button data-id="${data}" class="active">Mark Complete</button><li>${response.tasks[i].content}</li><button data-id="${data}"class="delete">Delete</button></div>`
-        );
+        if (response.tasks[i].completed === true) {
+          $('#completed-tasks').append(
+            `<div class="todo-item"><button data-id="${data}" class="active">Mark Complete</button><li>${response.tasks[i].content}</li><button data-id="${data}"class="delete">Delete</button></div>`
+          );
+          $('#all-tasks').append(`<div class="todo-item"><button data-id="${data}" class="active">Mark Complete</button><li>${response.tasks[i].content}</li><button data-id="${data}"class="delete">Delete</button></div>`);
+        } else {
+          $('#todo-container').append(`<div class="todo-item"><button data-id="${data}" class="active">Mark Complete</button><li>${response.tasks[i].content}</li><button data-id="${data}"class="delete">Delete</button></div>`);
+          $('#all-tasks').append(`<div class="todo-item"><button data-id="${data}" class="active">Mark Complete</button><li>${response.tasks[i].content}</li><button data-id="${data}"class="delete">Delete</button></div>`);
+        }
       }
     },
     error: function(request, textStatus, errorMessage) {
       console.log(errorMessage);
     }
   });
-    
+  createHeader();
 };
+var whatIsTheHeader;
+
+var createHeader = function() {
+  if (whatIsTheHeader === 'completed') {
+   $('#position-container').append('<h1>Completed Tasks</h1>');
+  }
+  if (whatIsTheHeader === 'all') {
+   $('#position-container').append('<h1>All Tasks</h1>');
+  }
+  if (whatIsTheHeader === 'current') {
+   $('#position-container').append('<h1>Current Tasks</h1>');
+  }
+};
+
+
+let completedTasksContainer = function() {
+  $('#todo-container').hide();
+  $('#all-tasks').hide();
+  $('#completed-tasks').show();
+  whatIsTheHeader = 'completed';
+};
+
+let allTasksContainer = function() {
+  $('#todo-container').hide();
+  $('#completed-tasks').hide();
+  $('#all-tasks').show();
+  whatIsTheHeader = 'all';
+};
+
+let currentTasksContainer = function() {
+  $('#completed-tasks').hide();
+  $('#all-tasks').hide();
+  $('#todo-container').show();
+  whatIsTheHeader = 'current';
+};
+
+
+
+
+
+
+
 
 //!!!!!!! 
 //!!!!!!!be careful with this function, it will delete all your todos

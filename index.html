@@ -13,21 +13,27 @@
   <div class="container">
     <h1>To-Do-List</h1>
     <p>By: Emma-Lou-Who</p>
-    <div id="todo-container">
-      
+    <div id="position-container">
+      <button class="catagory-buttons" onclick="currentTasksContainer()">Current/Active</button>
+      <button onclick="completedTasksContainer()">Completed</button>
+      <button onclick="allTasksContainer()">All</button>
+      <div id="todo-container">
+        <!-- code injected for current tasks -->
+      </div>
+      <div id="completed-tasks">
+        <!-- code injected for completed tasks -->
+      </div>
+      <div id="all-tasks">
+        <!-- code injected for all tasks -->
+      </div>
     </div>
     <div id="todo-form">
       <form class="newTodo">
         <input  type="text" placeholder="Add a new todo">
         <button type="submit" id="add-btn">ADD</button>
       </form>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <button id="dont-press">DONT PRESS WILL DELETE WHOLE LIST</button>
+      <!-- <button id="dont-press">DONT PRESS WILL DELETE WHOLE LIST</button> -->
+      
   </div>
 
 
