@@ -1,3 +1,5 @@
+
+
 $(document).ready(function() {
   //fetch todos on page load
   fetchTodos();
@@ -34,6 +36,8 @@ $(document).on('click', '.delete', function(e) {
   setTimeout(fetchTodos, 500);
 });
 
+
+
 //mark todo complete button
 $('body').on('click', '.active', function() {
   var id = $(this).data().id;
@@ -57,7 +61,6 @@ $('body').on('click', '.active', function() {
   });
   setTimeout(fetchTodos, 500);
 });
-
 //add todo button
 $('#add-btn').on('click', function(e) {
   e.preventDefault();
@@ -83,6 +86,7 @@ $('#add-btn').on('click', function(e) {
   $('input').val('');
   setTimeout(fetchTodos, 500);
 });
+
 
 //fetch todos function
 var fetchTodos = function() {
@@ -112,7 +116,32 @@ var fetchTodos = function() {
       console.log(errorMessage);
     }
   });
+    
 };
+
+let completedTasksContainer = function() {
+  $('#todo-container').hide();
+  $('#all-tasks').hide();
+  $('#completed-tasks').show();
+};
+
+let allTasksContainer = function() {
+  $('#todo-container').hide();
+  $('#completed-tasks').hide();
+  $('#all-tasks').show();
+};
+
+let currentTasksContainer = function() {
+  $('#completed-tasks').hide();
+  $('#all-tasks').hide();
+  $('#todo-container').show();
+};
+
+
+
+
+
+
 
 
 //!!!!!!! 
